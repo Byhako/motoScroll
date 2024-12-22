@@ -1,24 +1,25 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import viteLogo from '/vite.svg'
-import { setupCounter } from './counter.js'
+import { images } from './images.js'
 
-document.querySelector('#app').innerHTML = `
-  <div>
-    <a href="https://vite.dev" target="_blank">
-      <img src="${viteLogo}" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
-  </div>
-`
+const img = document.getElementById('motoScroll')
+const sectionAnimation = document.getElementById('animation')
+const MAX_FRAMES = 150
 
-setupCounter(document.querySelector('#counter'))
+const updateImage = (frame) => {
+  const src = images?.[frame]?.p
+  img.src = src
+}
+
+updateImage(0)
+
+let maxScroll = sectionAnimation.scrollHeight - window.innerHeight
+
+window.addEventListener('resize', () => {
+  maxScroll = sectionAnimation.scrollHeight - window.innerHeight
+})
+
+window.addEventListener('scroll', () => {
+  const scrollPosition = window.scrollY
+  const frame = Math.floor(scrollPosition / maxScroll * MAX_FRAMES)
+
+  updateImage(frame < 151 ? frame : 150)
+})
